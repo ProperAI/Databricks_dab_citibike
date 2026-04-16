@@ -1,0 +1,74 @@
+# This is a Databricks asset bundle definition for dab_project.
+# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
+bundle:
+  name: dab_project
+  uuid: cc02b8dd-7cd5-4a25-8a94-bb8b56144799
+
+
+include:
+  - resources/*.yml
+
+variables:
+  catalog:
+    default: "citibike_dev"
+  dev_flag:
+    default: true
+  cluster_id: 
+    default: "0328-193834-xbohaaib"
+    description: "Existing interactive cluster ID"
+
+targets:
+  dev:
+    ### Default target uses 'mode: development' to create a development copy.
+    ### - Deployed resources get prefixed with '[dev_user_name]'
+    ### - Triggers and job schedules are paused by default.
+    ### See  https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
+    mode: development
+    default: true
+    
+    workspace:
+      host: https://adb-7405618443802370.10.azuredatabricks.net
+    # variables:
+    #   schema: dev
+    # presets:
+    #   artifacts_dynamic_version: true
+
+  test:
+    mode: production
+    variables:
+      catalog:
+        default: "citibike_test"
+      dev_flag:
+        default: false
+    presets:
+      name_prefix: '[testing]'
+    workspace:
+      host: https://adb-7405607174863339.19.azuredatabricks.net/
+      # Make this explicit: /Workspace/Users/dbadmin@jwk0319hotmail.onmicrosoft.com to make sure we only have a single copy.
+      root_path: /Workspace/Shared/dbadmin@jwk0319hotmail.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - user_name: dbadmin@jwk0319hotmail.onmicrosoft.com
+        level: CAN_MANAGE
+      - service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com 
+        level: CAN_MANAGE
+    run_as:
+      service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com
+    ### job_cluster_key:  d4_v6_sn
+
+  prod:
+    mode: production
+    variables:
+      catalog:
+        default: "citibike_prod"
+      dev_flag:
+        default: false
+    workspace:
+      host: https://adb-7405611384548097.17.azuredatabricks.net/
+      # We explicitly deploy to /Workspace/Users/dbadmin@jwk0319hotmail.onmicrosoft.com to make sure we only have a single copy.
+      root_path: /Workspace/Shared/dbadmin@jwk0319hotmail.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
+    permissions:
+      - service_principal_name: your-service-principal-name # update with your service principal name
+        level: CAN_MANAGE
+    run_as:
+      service_principal_name: your-service-principal-name # update with your service principal name
+    ### job_cluster_key:  d4_v6_sn

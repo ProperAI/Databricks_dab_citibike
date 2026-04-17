@@ -49,10 +49,10 @@ targets:
     permissions:
       - user_name: dbadmin@jwk0319hotmail.onmicrosoft.com
         level: CAN_MANAGE
-      - service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com 
-        level: CAN_MANAGE
-    run_as:
-      service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com
+      # - service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com 
+      #   level: CAN_MANAGE
+    # run_as:
+    #   service_principal_name: dbadmin@jwk0319hotmail.onmicrosoft.com
     ### job_cluster_key:  d4_v6_sn
 
   prod:
@@ -67,8 +67,10 @@ targets:
       # We explicitly deploy to /Workspace/Users/dbadmin@jwk0319hotmail.onmicrosoft.com to make sure we only have a single copy.
       root_path: /Workspace/Shared/dbadmin@jwk0319hotmail.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     permissions:
-      - service_principal_name: your-service-principal-name # update with your service principal name
-        level: CAN_MANAGE
-    run_as:
-      service_principal_name: your-service-principal-name # update with your service principal name
+     - user_name: dbadmin@jwk0319hotmail.onmicrosoft.com
+       level: CAN_MANAGE
+      # - service_principal_name: your-service-principal-name # update with your service principal name
+      #   level: CAN_MANAGE
+    # run_as:
+    #   service_principal_name: your-service-principal-name # update with your service principal name
     ### job_cluster_key:  d4_v6_sn
